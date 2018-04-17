@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Room {
-    String name;
-    long size;
+    private String name;
+    private long size;
     private ArrayList<Connection> connections;
-    long scanned;
+    private long scanned;
 
     Room(String name, long footage) {
         this.name = name;
@@ -22,6 +22,32 @@ public class Room {
 
     public void addConnection(Connection connection) {
         this.connections.add(connection);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getScanned() {
+        return scanned;
+    }
+
+    public ArrayList<Connection> getConnections() {
+        return connections;
+    }
+
+    public boolean addScan(long amount) {
+        scanned += amount;
+        if(scanned > size) {
+            scanned = size;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isScanned() {
+        return scanned >= size;
     }
 
     @Override

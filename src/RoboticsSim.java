@@ -23,7 +23,11 @@ public class RoboticsSim {
 
     public String run() {
         System.out.println("Running robotics simulation\n");
-
-        return("Finished simulation");
+        while(layout.step()) {
+            steps--;
+            if(steps == 0) break;
+        }
+        System.out.println("Finished simulation\n");
+        return(layout.getSolution());
     }
 }

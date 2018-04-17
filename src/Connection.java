@@ -5,8 +5,16 @@ public class Connection {
         this.room2 = room2;
     }
 
+    public Room getOwner() {
+        return room1;
+    }
+
+    public Room getDestination() {
+        return room2;
+    }
+
     @Override
     public String toString() {
-        return "Connection{" + room1.name + " to " + room2.name + '}';
+        return "Connection{" + room1.getName() + " to " + room2.getName() + '}';
     }
 }
