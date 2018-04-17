@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MapLayout {
-    Scanner scanner;
-    String file;
+    private Scanner scanner;
+    private String file;
     ArrayList<Room> rooms;
     ArrayList<String> robotLocations;
+    long hallwayWidth;
 
     MapLayout(String fileName) {
+        this(fileName, 10);
+    }
+
+    MapLayout(String fileName, long width) {
         file = fileName;
         robotLocations = new ArrayList<>();
+        hallwayWidth = width;
 
         try {
             scanner = new Scanner(new File(fileName));
@@ -62,7 +68,16 @@ public class MapLayout {
         for(String hallway : hallways) {
             String[] splitHallway = hallway.split("\\s+");
             for (int i = 0; i < splitHallway.length-1; i = i+2) {
-                getRoom(splitHallway[i]).addConnection(getRoom(splitHallway[i+2]), Long.parseLong(splitHallway[i+1]));
+                if(!splitHallway[i+1].equals("0")) {
+                    String hallwayName = "Hallway_" + splitHallway[i] + "_" + splitHallway[i + 2];
+                    Long hallwayLength = Long.parseLong(splitHallway[i + 1]);
+                    Room newHallway = new Room(hallwayName, hallwayLength * hallwayWidth);
+                    rooms.add(newHallway);
+                    getRoom(splitHallway[i]).addConnection(newHallway);
+                    newHallway.addConnection(getRoom(splitHallway[i + 2]));
+                } else {
+                    getRoom(splitHallway[i]).addConnection(getRoom(splitHallway[i+2]));
+                }
             }
         }
 
@@ -70,6 +85,13 @@ public class MapLayout {
             System.out.println(room);
         }
         System.out.println(robotLocations);
+    }
+
+    public boolean step() {
+        for(String robot : robotLocations) {
+
+        }
+        return false;
     }
 
     private Room getRoom(String roomName) {

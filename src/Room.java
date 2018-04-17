@@ -4,21 +4,24 @@ import java.util.Objects;
 public class Room {
     String name;
     long size;
-    private ArrayList<Hallway> hallways;
+    private ArrayList<Connection> connections;
+    long scanned;
+
     Room(String name, long footage) {
         this.name = name;
         this.size = footage;
-        hallways = new ArrayList<>();
+        connections = new ArrayList<>();
+        scanned = 0;
     }
 
-    public void addConnection(Room nextRoom, long length) {
-        Hallway hallway = new Hallway(length, this, nextRoom);
-        hallways.add(hallway);
-        nextRoom.addConnection(new Hallway(length, nextRoom, this));
+    public void addConnection(Room nextRoom) {
+        Connection connection = new Connection(this, nextRoom);
+        this.connections.add(connection);
+        nextRoom.addConnection(new Connection(nextRoom, this));
     }
 
-    public void addConnection(Hallway hallway) {
-        hallways.add(hallway);
+    public void addConnection(Connection connection) {
+        this.connections.add(connection);
     }
 
     @Override
@@ -26,7 +29,7 @@ public class Room {
         return "Room{" +
                 "name='" + name + '\'' +
                 ", size=" + size +
-                ", hallways=" + hallways +
+                ", connections=" + connections +
                 '}';
     }
 
