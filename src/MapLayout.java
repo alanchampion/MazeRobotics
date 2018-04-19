@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class MapLayout {
@@ -104,8 +105,8 @@ public class MapLayout {
 
             /*for(Room room : rooms) {
                 System.out.println(room);
-            }
-            System.out.println(robotLocations);*/
+            }*/
+            // System.out.println(robotLocations);
         }
     }
 
@@ -121,6 +122,11 @@ public class MapLayout {
                         robot.setLoc(connection.getDestination());
                         break;
                     }
+                }
+                if(currentLoc == robot.getLoc()) {
+                    robot.setLoc(currentLoc.getConnections()
+                            .get(new Random().nextInt(currentLoc.getConnections().size()))
+                            .getDestination());
                 }
             } else {
                 currentLoc.addScan(robotScan);
