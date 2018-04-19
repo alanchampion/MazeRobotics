@@ -4,11 +4,11 @@ public class Robot {
         this.loc = loc;
     }
 
-    public Room getLoc() {
+    Room getLoc() {
         return loc;
     }
 
-    public void setLoc(Room loc) {
+    void setLoc(Room loc) {
         this.loc = loc;
     }
 

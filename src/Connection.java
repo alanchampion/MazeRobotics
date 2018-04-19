@@ -1,15 +1,15 @@
 public class Connection {
-    Room room1, room2;
+    private Room room1, room2;
     Connection(Room room1, Room room2) {
         this.room1 = room1;
         this.room2 = room2;
     }
 
-    public Room getOwner() {
+    /*public Room getOwner() {
         return room1;
-    }
+    }*/
 
-    public Room getDestination() {
+    Room getDestination() {
         return room2;
     }
 

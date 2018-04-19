@@ -1,15 +1,10 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
-public class RoboticsSim {
-    long steps, startingCount, width, scanAmount;
-    Robot[] robots;
-    MapLayout layout;
+class RoboticsSim {
+    private long steps, startingCount;
+    private MapLayout layout;
 
     RoboticsSim(String[] args) {
-        width = 10;
-        scanAmount = 10;
+        long width = 10;
+        long scanAmount = 10;
         try {
             if(args.length >= 2) {
                 steps = Long.parseLong(args[1]);
@@ -28,7 +23,7 @@ public class RoboticsSim {
         }
     }
 
-    public String run() {
+    String run() {
         System.out.println("Running robotics simulation\n");
         while(true) {
             if(layout.step()) break;

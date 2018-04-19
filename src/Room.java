@@ -16,47 +16,41 @@ public class Room {
         visited = false;
     }
 
-    public void addConnection(Room nextRoom) {
+    void addConnection(Room nextRoom) {
         Connection connection = new Connection(this, nextRoom);
         this.connections.add(connection);
         nextRoom.addConnection(new Connection(nextRoom, this));
     }
 
-    public void addConnection(Connection connection) {
+    private void addConnection(Connection connection) {
         this.connections.add(connection);
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public long getScanned() {
+    /*public long getScanned() {
         return scanned;
-    }
+    }*/
 
-    public ArrayList<Connection> getConnections() {
+    ArrayList<Connection> getConnections() {
         return connections;
     }
 
-    public boolean addScan(long amount) {
+    void addScan(long amount) {
         scanned += amount;
-        if(scanned > size) {
-            scanned = size;
-            return true;
-        } else {
-            return false;
-        }
     }
 
-    public boolean isScanned() {
+    boolean isScanned() {
         return scanned >= size;
     }
 
-    public void setVisited(boolean visited) {
+    void setVisited(boolean visited) {
         this.visited = visited;
     }
 
-    public boolean isVisited() {
+    boolean isVisited() {
         return visited;
     }
 

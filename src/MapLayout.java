@@ -4,28 +4,25 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class MapLayout {
+class MapLayout {
     private Scanner scanner;
-    private String file;
     private ArrayList<Room> rooms;
     private ArrayList<Robot> robotLocations;
     private ArrayList<Room> solution;
-    private long hallwayWidth, robotScan;
+    private long robotScan;
     private Room[] goals;
 
-    MapLayout(String fileName) {
+    /*MapLayout(String fileName) {
         this(fileName, 10);
-    }
+    }*/
 
-    MapLayout(String fileName, long width) {
+    /*MapLayout(String fileName, long width) {
         this(fileName, width, 10);
-    }
+    }*/
 
-    MapLayout(String fileName, long width, long scanAmount) {
+    MapLayout(String fileName, long hallwayWidth, long scanAmount) {
         {
-            file = fileName;
             robotLocations = new ArrayList<>();
-            hallwayWidth = width;
             robotScan = scanAmount;
             goals = new Room[2];
             rooms = new ArrayList<>();
@@ -46,7 +43,7 @@ public class MapLayout {
             // Get all the rooms
             while(scanner.hasNextLine()) {
                 line = scanner.nextLine();
-                if(line.equals("") || line.equals(" ") || line.equals(null)) {
+                if(line.equals("") || line.equals(" ")) {
                     break;
                 } else {
                     String[] room = line.split("\\s+");
@@ -61,7 +58,7 @@ public class MapLayout {
             // Get all the hallways
             while(scanner.hasNextLine()) {
                 line = scanner.nextLine();
-                if(line.equals("") || line.equals(" ") || line.equals(null)) {
+                if(line.equals("") || line.equals(" ")) {
                     break;
                 } else {
                     hallways.add(line);
@@ -86,7 +83,7 @@ public class MapLayout {
             // Get the robot starting locations
             while(scanner.hasNextLine()) {
                 line = scanner.nextLine();
-                if(line.equals("") || line.equals(" ") || line.equals(null)) {
+                if(line.equals("") || line.equals(" ")) {
                     break;
                 } else {
                     robotLocations.add(new Robot(getRoom(line)));
@@ -110,7 +107,7 @@ public class MapLayout {
         }
     }
 
-    public boolean step() {
+    boolean step() {
         for(Robot robot : robotLocations) {
             Room currentLoc = robot.getLoc();
             boolean finished = false;
@@ -140,12 +137,12 @@ public class MapLayout {
         return false;
     }
 
-    public String getSolution() {
-        String solutionText = "";
+    String getSolution() {
+        StringBuilder solutionText = new StringBuilder();
         for(Room room : solution) {
-            solutionText += room.getName() + "\n";
+            solutionText.append(room.getName()).append("\n");
         }
-        return solutionText;
+        return solutionText.toString();
     }
 
     private Room getRoom(String roomName) {
