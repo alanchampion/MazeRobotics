@@ -1,10 +1,12 @@
 class RoboticsSim {
-    private long steps, startingCount;
-    private MapLayout layout;
+    private long steps, startingCount, width, scanAmount;
+    private String fileName;
 
     RoboticsSim(String[] args) {
-        long width = 10;
-        long scanAmount = 10;
+        width = 10;
+        scanAmount = 10;
+        fileName = args[0];
+
         try {
             if(args.length >= 2) {
                 steps = Long.parseLong(args[1]);
@@ -16,7 +18,6 @@ class RoboticsSim {
 
             startingCount = steps;
 
-            layout = new MapLayout(args[0], width, scanAmount);
         } catch(NumberFormatException e) {
             System.out.println("Please input the step count as a number.");
             System.exit(1);
@@ -25,6 +26,9 @@ class RoboticsSim {
 
     String run() {
         System.out.println("Running robotics simulation\n");
+
+        MapLayout layout = new MapLayout(fileName, width, scanAmount);
+
         while(true) {
             if(layout.step()) break;
             /*if((startingCount - steps) % 1000000 == 0) {

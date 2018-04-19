@@ -42,7 +42,7 @@ public class Room {
         scanned += amount;
         if(scanned >= size) {
             scanned = size;
-            Controller.getController().addFinishedRoom(this);
+            Controller.addFinishedRoom(this);
         }
     }
 
@@ -54,7 +54,7 @@ public class Room {
         this.visited = visited;
     }
 
-    boolean isVisited() {
+    boolean notVisited() {
         return visited;
     }
 

@@ -9,7 +9,6 @@ class MapLayout {
     private ArrayList<Room> solution;
     private long robotScan;
     private Room[] goals;
-    private Controller controller;
     private Random rgen;
 
     /*MapLayout(String fileName) {
@@ -27,14 +26,13 @@ class MapLayout {
             goals = new Room[2];
             rooms = new ArrayList<>();
             solution = new ArrayList<>();
-            controller = Controller.getController();
-            controller.reset();
+            Controller.reset();
 
             long rgenseed = System.currentTimeMillis();
             rgen = new Random();
             // rgenseed = 1524127082862L;
             rgen.setSeed(rgenseed);
-            System.out.println("Seed: " + rgenseed);
+            // System.out.println("Seed: " + rgenseed);
 
             try {
                 scanner = new Scanner(new File(fileName));
@@ -88,9 +86,8 @@ class MapLayout {
                 }
             }
 
-            // TODO add back in once debugged
             for(Room room: rooms) {
-                // Collections.shuffle(room.getConnections());
+                Collections.shuffle(room.getConnections());
             }
 
             // Get the robot starting locations
@@ -100,7 +97,7 @@ class MapLayout {
                     break;
                 } else {
                     Robot r = new Robot(getRoom(line));
-                    controller.addKnownRoom(getRoom(line));
+                    Controller.addKnownRoom(getRoom(line));
                     robots.add(r);
                 }
             }
@@ -148,16 +145,16 @@ class MapLayout {
                     if(robot.followingPath()) {
                         robot.followPath();
                     } else {
-                        Collection<Room> unexplored = controller.getUnscannedRooms();
+                        Collection<Room> unexplored = Controller.getUnscannedRooms();
                         if (unexplored.size() == 0) {
                             System.out.println("No unexplored areas");
                             return true;
                         }
                         Room goalLoc = (Room) unexplored.toArray()[rgen.nextInt(unexplored.size())];
-                        ArrayList<Room> path = controller.findPath(currentLoc, goalLoc);
+                        ArrayList<Room> path = Controller.findPath(currentLoc, goalLoc);
                         if (path == null || path.isEmpty()) {
                             System.out.println("No path found");
-                            for(Room room: controller.getKnownRooms()) {
+                            for(Room room: Controller.getKnownRooms()) {
                                 System.out.println(room);
                             }
                             return true;
@@ -206,8 +203,8 @@ class MapLayout {
         return dfs(goals[0], goals[1], path);
     }
 
-    // TODO Implement A* instead of greedy algorithm
-    private ArrayList<Room> aStar(Room start, Room goal) {
+    // TODO Implement A* instead of dfs algorithm
+    /*private ArrayList<Room> aStar(Room start, Room goal) {
         ArrayList<Room> open = new ArrayList<>();
         ArrayList<Room> close = new ArrayList<>();
         open.add(start);
@@ -216,36 +213,7 @@ class MapLayout {
 
         }
         return null;
-    }
-
-    private ArrayList<Room> greedy(Room start, Room goal) {
-        ArrayList<Room> fringe = new ArrayList<>();
-        ArrayList<Room> visited = new ArrayList<>();
-        ArrayList<Room> unseen = new ArrayList<>(rooms);
-        Map<Room, Room> parent = new HashMap<>();
-
-        fringe.add(start);
-        unseen.remove(start);
-
-        while(!fringe.isEmpty()) {
-            Room room = fringe.get(0);
-            fringe.remove(0);
-            visited.add(room);
-            for(Connection connection: room.getConnections()) {
-                Room adjRoom = connection.getDestination();
-                if(unseen.contains(adjRoom)) {
-                    // Maybe remove?
-                    unseen.remove(adjRoom);
-                    fringe.add(adjRoom);
-                    parent.put(adjRoom, room);
-                } else if (fringe.contains(adjRoom)) {
-                    // if
-                }
-            }
-        }
-
-        return null;
-    }
+    }*/
 
     private boolean dfs(Room currentRoom, Room goalRoom, ArrayList<Room> path) {
         // System.out.println("Running dfs on " + currentRoom.getName());
@@ -265,7 +233,7 @@ class MapLayout {
                 continue;
             }
 
-            if(!adjRoom.isVisited()) {
+            if(adjRoom.notVisited()) {
                 path.add(adjRoom);
                 if (dfs(adjRoom, goalRoom, path)) {
                     return true;

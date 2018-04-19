@@ -3,7 +3,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Controller {
+class Controller {
     private static Controller controller;
     private static Set<Room>  knownRooms;
 
@@ -31,15 +31,7 @@ public class Controller {
         }
     }
 
-    // TODO make this work
     static ArrayList<Room> findPath(Room currentRoom, Room goal) {
-        /*System.out.println("Trying to find path from " + currentRoom.getName() + " to " + goal.getName());
-        System.out.println("Known rooms:");
-        for(Room room : knownRooms) {
-            System.out.println(room.getName());
-            room.setVisited(false);
-        }*/
-
         for(Room room: knownRooms) {
             room.setVisited(false);
         }
@@ -62,7 +54,7 @@ public class Controller {
         for(Connection connection : currentRoom.getConnections()) {
             Room adjRoom = connection.getDestination();
 
-            if(!adjRoom.isVisited()) {
+            if(adjRoom.notVisited()) {
                 path.add(adjRoom);
                 if (!dfs(adjRoom, goalRoom, path).isEmpty()) {
                     // System.out.println("Returning found path.");
@@ -97,11 +89,11 @@ public class Controller {
         return unscanned;
     }
 
-    public static Collection<Room> getKnownRooms() {
+    static Collection<Room> getKnownRooms() {
         return knownRooms;
     }
 
-    public static Collection<Room> getScannedRooms() {
+    /*public static Collection<Room> getScannedRooms() {
         Set<Room> scanned = new HashSet<>();
 
         for(Room room : knownRooms) {
@@ -111,5 +103,5 @@ public class Controller {
         }
 
         return scanned;
-    }
+    }*/
 }
