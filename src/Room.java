@@ -55,7 +55,7 @@ public class Room {
     }
 
     boolean notVisited() {
-        return visited;
+        return !visited;
     }
 
     @Override
