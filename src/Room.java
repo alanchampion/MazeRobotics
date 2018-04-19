@@ -40,6 +40,10 @@ public class Room {
 
     void addScan(long amount) {
         scanned += amount;
+        if(scanned >= size) {
+            scanned = size;
+            Controller.getController().addFinishedRoom(this);
+        }
     }
 
     boolean isScanned() {

@@ -33,7 +33,7 @@ class RoboticsSim {
             steps--;
             if(steps == 0) break;
         }
-        System.out.println("Finished simulation\n");
+        System.out.println("\nFinished simulation\n");
         System.out.println("Time: " + (startingCount - steps) + "\n");
         return(layout.getSolution());
     }
