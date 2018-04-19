@@ -8,6 +8,7 @@ public class MapLayout {
     private String file;
     private ArrayList<Room> rooms;
     private ArrayList<Robot> robotLocations;
+    private ArrayList<Room> solution;
     private long hallwayWidth, robotScan;
     private Room[] goals;
 
@@ -27,6 +28,7 @@ public class MapLayout {
             robotScan = scanAmount;
             goals = new Room[2];
             rooms = new ArrayList<>();
+            solution = new ArrayList<>();
 
             try {
                 scanner = new Scanner(new File(fileName));
@@ -110,27 +112,34 @@ public class MapLayout {
     public boolean step() {
         for(Robot robot : robotLocations) {
             Room currentLoc = robot.getLoc();
+            boolean finished = false;
             if(currentLoc.isScanned()) {
-                checkCompletion();
+                finished = checkCompletion();
                 ArrayList<Connection> connections = currentLoc.getConnections();
                 for(Connection connection : connections) {
                     if(!connection.getDestination().isScanned()) {
                         robot.setLoc(connection.getDestination());
+                        break;
                     }
                 }
             } else {
                 currentLoc.addScan(robotScan);
             }
+
+            if(finished) {
+                return true;
+            }
         }
+
         return false;
     }
 
     public String getSolution() {
-        String solution = "";
-        for(Room room : rooms) {
-            solution += room.toString() + "\n";
+        String solutionText = "";
+        for(Room room : solution) {
+            solutionText += room.getName() + "\n";
         }
-        return solution;
+        return solutionText;
     }
 
     private Room getRoom(String roomName) {
@@ -139,11 +148,39 @@ public class MapLayout {
 
     private boolean checkCompletion() {
         if(!goals[0].isScanned() || !goals[1].isScanned()) return false;
-        return true;
-        // return dfs(goals[0]);
+        for(Room room : rooms) {
+            room.setVisited(false);
+        }
+        ArrayList<Room> path = new ArrayList<>();
+        path.add(goals[0]);
+        return dfs(goals[0], goals[1], path);
     }
 
-    private boolean dfs(Room room) {
-        return true;
+    private boolean dfs(Room currentRoom, Room goalRoom, ArrayList<Room> path) {
+        /*System.out.println(currentRoom);
+        System.out.println(goalRoom);
+        System.out.println("");*/
+        currentRoom.setVisited(true);
+
+        if(currentRoom == goalRoom) {
+            solution.addAll(path);
+            return true;
+        }
+
+        for(Connection connection : currentRoom.getConnections()) {
+            Room adjRoom = connection.getDestination();
+            if(!adjRoom.isScanned()) continue;
+
+            if(!adjRoom.isVisited()) {
+                path.add(adjRoom);
+                if (dfs(adjRoom, goalRoom, path)) {
+                    return true;
+                }
+                path.remove(adjRoom);
+            }
+        }
+
+        currentRoom.setVisited(false);
+        return false;
     }
 }

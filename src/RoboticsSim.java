@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class RoboticsSim {
-    long steps;
+    long steps, startingCount;
     Robot[] robots;
     MapLayout layout;
 
@@ -15,6 +15,7 @@ public class RoboticsSim {
             } else {
                 steps = -1;
             }
+            startingCount = steps;
         } catch(NumberFormatException e) {
             System.out.println("Please input the step count as a number.");
             System.exit(1);
@@ -23,11 +24,13 @@ public class RoboticsSim {
 
     public String run() {
         System.out.println("Running robotics simulation\n");
-        while(layout.step()) {
+        while(true) {
+            if(layout.step()) break;
             steps--;
             if(steps == 0) break;
         }
         System.out.println("Finished simulation\n");
+        System.out.println("Time: " + (startingCount - steps) + "\n");
         return(layout.getSolution());
     }
 }

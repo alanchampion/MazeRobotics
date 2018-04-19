@@ -6,12 +6,14 @@ public class Room {
     private long size;
     private ArrayList<Connection> connections;
     private long scanned;
+    private boolean visited;
 
     Room(String name, long footage) {
         this.name = name;
         this.size = footage;
         connections = new ArrayList<>();
         scanned = 0;
+        visited = false;
     }
 
     public void addConnection(Room nextRoom) {
@@ -50,12 +52,21 @@ public class Room {
         return scanned >= size;
     }
 
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
                 "name='" + name + '\'' +
                 ", size=" + size +
                 ", connections=" + connections +
+                ", scanned=" + scanned +
                 '}';
     }
 
