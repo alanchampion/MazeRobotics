@@ -131,43 +131,49 @@ class MapLayout {
         for(Robot robot : robots) {
             Room currentLoc = robot.getLoc();
             boolean finished = false;
-            if(currentLoc.isScanned()) {
-                finished = checkCompletion();
-                // if(finished) break;
-                ArrayList<Connection> connections = currentLoc.getConnections();
-                for(Connection connection : connections) {
-                    if(!connection.getDestination().isScanned()) {
-                        robot.setLoc(connection.getDestination());
-                        break;
+            if (robot.followingPath()) {
+                robot.followPath();
+            } else {
+                if (currentLoc.isScanned()) {
+                    finished = checkCompletion();
+                    // if(finished) break;
+                    ArrayList<Connection> connections = currentLoc.getConnections();
+                    for (Connection connection : connections) {
+                        if (!connection.getDestination().isScanned()) {
+                            robot.setLoc(connection.getDestination());
+                            break;
+                        }
                     }
-                }
-                if(currentLoc == robot.getLoc()) {
-                    if(robot.followingPath()) {
-                        robot.followPath();
-                    } else {
-                        Collection<Room> unexplored = Controller.getUnscannedRooms();
-                        if (unexplored.size() == 0) {
-                            System.out.println("No unexplored areas");
-                            return true;
-                        }
-                        Room goalLoc = (Room) unexplored.toArray()[rgen.nextInt(unexplored.size())];
-                        ArrayList<Room> path = Controller.findPath(currentLoc, goalLoc);
-                        if (path == null || path.isEmpty()) {
-                            System.out.println("No path found");
-                            for(Room room: Controller.getKnownRooms()) {
-                                System.out.println(room);
+                    if (currentLoc == robot.getLoc()) {
+                        if (robot.followingPath()) {
+                            robot.followPath();
+                        } else {
+                            Collection<Room> unexplored = Controller.getUnscannedRooms();
+                            if (unexplored.size() == 0) {
+                                // System.out.println("No unexplored areas");
+                                return true;
                             }
-                            return true;
-                        }
+                            Room goalLoc;
+                            if (unexplored.contains(goals[1])) goalLoc = goals[1];
+                            else goalLoc = (Room) unexplored.toArray()[rgen.nextInt(unexplored.size())];
+                            ArrayList<Room> path = Controller.findPath(currentLoc, goalLoc);
+                            if (path == null || path.isEmpty()) {
+                                /*System.out.println("No path found");
+                                for (Room room : Controller.getKnownRooms()) {
+                                    System.out.println(room);
+                                }*/
+                                return true;
+                            }
 
-                        robot.followPath(path);
-                        robot.followPath();
+                            robot.followPath(path);
+                            robot.followPath();
+                        }
+                    } else {
+                        robot.followPath(new ArrayList<>());
                     }
                 } else {
-                    robot.followPath(new ArrayList<>());
+                    currentLoc.addScan(robotScan);
                 }
-            } else {
-                currentLoc.addScan(robotScan);
             }
 
             if(finished) {
