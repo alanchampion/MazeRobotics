@@ -1,6 +1,8 @@
 # MazeRobotics
 A discrete event simulation of robots solving a floor-plan like maze. 
 
+The goal is to create a efficient way for robots to find a solution to a floor-plan like maze. Currently, the code can solve a floor-plan as specified in the configuration file. Future work includes creating a graphical display of this process and making the maze solving even more efficient. 
+
 ## Getting Started
 Make the project
 ```
