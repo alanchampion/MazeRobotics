@@ -4,23 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 class Controller {
-    private static Controller controller;
     private static Set<Room>  knownRooms;
 
     private Controller() {}
 
     static {
         knownRooms = new HashSet<>();
-        controller = new Controller();
     }
 
     static void reset() {
         knownRooms = new HashSet<>();
-        controller = new Controller();
-    }
-
-    static Controller getController() {
-        return controller;
     }
 
     static void addKnownRoom(Room room) {
@@ -89,9 +82,9 @@ class Controller {
         return unscanned;
     }
 
-    static Collection<Room> getKnownRooms() {
+    /*static Collection<Room> getKnownRooms() {
         return knownRooms;
-    }
+    }*/
 
     /*public static Collection<Room> getScannedRooms() {
         Set<Room> scanned = new HashSet<>();

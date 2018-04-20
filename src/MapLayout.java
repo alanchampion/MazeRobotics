@@ -32,7 +32,7 @@ class MapLayout {
             rgen = new Random();
             // rgenseed = 1524196604097L;
             rgen.setSeed(rgenseed);
-            System.out.println("Seed: " + rgenseed);
+            // System.out.println("Seed: " + rgenseed);
 
             try {
                 scanner = new Scanner(new File(fileName));
