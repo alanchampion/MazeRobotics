@@ -5,9 +5,9 @@ public class Connection {
         this.room2 = room2;
     }
 
-    /*public Room getOwner() {
+    private Room getOwner() {
         return room1;
-    }*/
+    }
 
     Room getDestination() {
         return room2;
@@ -16,5 +16,14 @@ public class Connection {
     @Override
     public String toString() {
         return "Connection{" + room1.getName() + " to " + room2.getName() + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Connection)) return false;
+        Connection connection = (Connection) o;
+        return ((room1 == connection.getOwner() && room2 == connection.getDestination()) ||
+                (room2 == connection.getOwner() && room1 == connection.getDestination()));
     }
 }

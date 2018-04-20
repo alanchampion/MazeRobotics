@@ -10,7 +10,6 @@ class MapLayout {
     private long robotScan;
     private Room[] goals;
     private Random rgen;
-
     /*MapLayout(String fileName) {
         this(fileName, 10);
     }*/
@@ -30,7 +29,7 @@ class MapLayout {
 
             long rgenseed = System.currentTimeMillis();
             rgen = new Random();
-            // rgenseed = 1524196604097L;
+            // rgenseed = 1524198166097L;
             rgen.setSeed(rgenseed);
             // System.out.println("Seed: " + rgenseed);
 
@@ -196,55 +195,15 @@ class MapLayout {
     }
 
     private boolean checkCompletion() {
-        if(!goals[0].isScanned() || !goals[1].isScanned()) return false;
+        /*if(!goals[0].isScanned() || !goals[1].isScanned()) return false;
         for(Room room : rooms) {
             room.setVisited(false);
         }
         ArrayList<Room> path = new ArrayList<>();
         path.add(goals[0]);
-        return dfs(goals[0], goals[1], path);
-    }
-
-    // TODO Implement A* instead of dfs algorithm
-    /*private ArrayList<Room> aStar(Room start, Room goal) {
-        ArrayList<Room> open = new ArrayList<>();
-        ArrayList<Room> close = new ArrayList<>();
-        open.add(start);
-
-        while (!open.isEmpty()) {
-
-        }
-        return null;
-    }*/
-
-    private boolean dfs(Room currentRoom, Room goalRoom, ArrayList<Room> path) {
-        // System.out.println("Running dfs on " + currentRoom.getName());
-        /*System.out.println(currentRoom);
-        System.out.println(goalRoom);
-        System.out.println("");*/
-        currentRoom.setVisited(true);
-
-        if(currentRoom == goalRoom) {
-            solution.addAll(path);
-            return true;
-        }
-
-        for(Connection connection : currentRoom.getConnections()) {
-            Room adjRoom = connection.getDestination();
-            if(!adjRoom.isScanned()){
-                continue;
-            }
-
-            if(adjRoom.notVisited()) {
-                path.add(adjRoom);
-                if (dfs(adjRoom, goalRoom, path)) {
-                    return true;
-                }
-                path.remove(adjRoom);
-            }
-        }
-
-        // currentRoom.setVisited(false);
-        return false;
+        return dfs(goals[0], goals[1], path);*/
+        if(!goals[0].isScanned() || !goals[1].isScanned()) return false;
+        solution = Utils.aStar(goals[0], goals[1], rooms);
+        return !solution.isEmpty();
     }
 }

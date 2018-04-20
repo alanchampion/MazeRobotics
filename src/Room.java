@@ -5,7 +5,7 @@ public class Room {
     private String name;
     private long size;
     private ArrayList<Connection> connections;
-    private long scanned;
+    private long scanned, fScore, gScore;
     private boolean visited;
 
     Room(String name, long footage) {
@@ -14,6 +14,8 @@ public class Room {
         connections = new ArrayList<>();
         scanned = 0;
         visited = false;
+        fScore = Long.MAX_VALUE;
+        gScore = Long.MAX_VALUE;
     }
 
     void addConnection(Room nextRoom) {
@@ -58,6 +60,22 @@ public class Room {
         return !visited;
     }
 
+    long getfScore() {
+        return fScore;
+    }
+
+    void setfScore(long fScore) {
+        this.fScore = fScore;
+    }
+
+    long getgScore() {
+        return gScore;
+    }
+
+    void setgScore(long gScore) {
+        this.gScore = gScore;
+    }
+
     @Override
     public String toString() {
         return "Room{" +
@@ -78,7 +96,6 @@ public class Room {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name);
     }
 }
