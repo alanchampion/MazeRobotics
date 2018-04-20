@@ -10,7 +10,7 @@ public class SIM {
         String result = sim.run();
         System.out.println(result);
 
-        /*for(int i = 0; i < 10; i++) {
+        /*for(int i = 0; i < 100; i++) {
             sim = new RoboticsSim(args);
             result = sim.run();
             System.out.println(result);

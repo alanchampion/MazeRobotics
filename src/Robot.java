@@ -21,6 +21,7 @@ public class Robot {
     void followPath() {
         this.loc = path.get(0);
         path.remove(0);
+        Controller.addKnownRoom(this.loc);
     }
 
     void followPath(ArrayList<Room> path) {

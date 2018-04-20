@@ -30,9 +30,9 @@ class MapLayout {
 
             long rgenseed = System.currentTimeMillis();
             rgen = new Random();
-            // rgenseed = 1524127082862L;
+            // rgenseed = 1524196604097L;
             rgen.setSeed(rgenseed);
-            // System.out.println("Seed: " + rgenseed);
+            System.out.println("Seed: " + rgenseed);
 
             try {
                 scanner = new Scanner(new File(fileName));
@@ -84,10 +84,6 @@ class MapLayout {
                         getRoom(splitHallway[i]).addConnection(getRoom(splitHallway[i+2]));
                     }
                 }
-            }
-
-            for(Room room: rooms) {
-                Collections.shuffle(room.getConnections());
             }
 
             // Get the robot starting locations
