@@ -180,6 +180,9 @@ class MapLayout {
     }
 
     String getSolution() {
+        /*for(Room room : Controller.getKnownRooms()) {
+            System.out.println(room);
+        }*/
         if(solution.isEmpty()) {
             return "No solution found";
         }

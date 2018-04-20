@@ -25,45 +25,7 @@ class Controller {
     }
 
     static ArrayList<Room> findPath(Room currentRoom, Room goal) {
-        for(Room room: knownRooms) {
-            room.setVisited(false);
-        }
-        ArrayList<Room> path = new ArrayList<>();
-        path.add(currentRoom);
-        return dfs(currentRoom, goal, path);
-    }
-
-    private static ArrayList<Room> dfs(Room currentRoom, Room goalRoom, ArrayList<Room> path) {
-        /*System.out.println(currentRoom);
-        System.out.println(goalRoom);
-        System.out.println("");*/
-        currentRoom.setVisited(true);
-
-        if(currentRoom == goalRoom) {
-            // System.out.println("Found path!");
-            return path;
-        }
-
-        for(Connection connection : currentRoom.getConnections()) {
-            Room adjRoom = connection.getDestination();
-
-            if(adjRoom.notVisited()) {
-                path.add(adjRoom);
-                if (!dfs(adjRoom, goalRoom, path).isEmpty()) {
-                    // System.out.println("Returning found path.");
-                    return path;
-                }
-                path.remove(adjRoom);
-            }
-        }
-
-        // currentRoom.setVisited(false);
-        /*System.out.print("Didn't find path: ");
-        for(Room room : path) {
-            System.out.print(room.getName() + ", ");
-        }
-        System.out.println("");*/
-        return new ArrayList<>();
+        return Utils.unscannedAStar(currentRoom, goal, knownRooms);
     }
 
     static void addFinishedRoom(Room room) {

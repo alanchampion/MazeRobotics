@@ -41,6 +41,45 @@ class Utils {
         return new ArrayList<>();
     }
 
+    static ArrayList<Room> unscannedAStar(Room start, Room goal, Collection<Room> allRooms) {
+        PriorityQueue<Room> openSet = new PriorityQueue<>(1, new RoomComparator());
+        ArrayList<Room> closedSet = new ArrayList<>();
+        Map<Room, Room> cameFrom = new HashMap<>();
+
+        for(Room room : allRooms) {
+            room.setfScore(Long.MAX_VALUE);
+            room.setgScore(Long.MAX_VALUE);
+        }
+        start.setfScore(heuristicCalculation(start, goal));
+        start.setgScore(0L);
+        openSet.add(start);
+
+        while(!openSet.isEmpty()) {
+            Room current = openSet.remove();
+            if(current == goal)
+                return reconstructPath(cameFrom, current);
+
+            openSet.remove(current);
+            closedSet.add(current);
+
+            for(Connection connection : current.getConnections()) {
+                Room neighbor = connection.getDestination();
+                if(closedSet.contains(neighbor)) continue;
+
+                if(!openSet.contains(neighbor)) openSet.add(neighbor);
+
+                long tentativeGScore = current.getgScore() + 1;
+                if(tentativeGScore >= neighbor.getgScore()) continue;
+
+                cameFrom.put(neighbor, current);
+                neighbor.setgScore(tentativeGScore);
+                neighbor.setfScore(neighbor.getgScore() + heuristicCalculation(neighbor, goal));
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
     private static long heuristicCalculation(Room start, Room goal) {
         if(start.getConnections().contains(new Connection(start, goal))) return 0;
         else return 1;

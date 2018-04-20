@@ -6,14 +6,14 @@ public class Room {
     private long size;
     private ArrayList<Connection> connections;
     private long scanned, fScore, gScore;
-    private boolean visited;
+    // private boolean visited;
 
     Room(String name, long footage) {
         this.name = name;
         this.size = footage;
         connections = new ArrayList<>();
         scanned = 0;
-        visited = false;
+        // visited = false;
         fScore = Long.MAX_VALUE;
         gScore = Long.MAX_VALUE;
     }
@@ -52,13 +52,13 @@ public class Room {
         return scanned >= size;
     }
 
-    void setVisited(boolean visited) {
+    /*void setVisited(boolean visited) {
         this.visited = visited;
     }
 
     boolean notVisited() {
         return !visited;
-    }
+    }*/
 
     long getfScore() {
         return fScore;
